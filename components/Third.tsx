@@ -10,7 +10,7 @@ const third = () => {
       <div className=" bg-black font-f1 text-6xl pt-16">
         <div className="flex mb-16  items-center justify-center landscape:items-start  ">
           <Star
-            src="/star.png "
+            src="/star.png"
             className="w-28  invert brightness-0 landscape:justify-center text-center md:w-32 "
           />
         </div>
