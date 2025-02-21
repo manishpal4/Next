@@ -1,17 +1,18 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import Image from "next/image";
 import { ImArrowUpRight2 } from "react-icons/im";
 import { motion } from "framer-motion";
-import { useState, useEffect, SetStateAction } from "react";
-
-
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [mouseX, setMouseX] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(0); // Initialized to 0 to prevent SSR issues
 
   useEffect(() => {
-    const handleMouseMove = (e: { clientX: SetStateAction<number> }) => {
+    setWindowWidth(window.innerWidth); // Set width after mount
+
+    const handleMouseMove = (e: MouseEvent) => {
       setMouseX(e.clientX);
     };
 
@@ -28,33 +29,30 @@ export default function Home() {
     };
   }, []);
 
-  // Movement logic: If cursor is on the left, move slightly right; if on the right, move slightly left
-  const moveX = mouseX < windowWidth / 2 ? 15 : -15; // Shortened floating distance
+  const moveX = mouseX < windowWidth / 2 ? 15 : -15; // Adjust floating movement
 
   return (
     <>
       <div className="bg-gray-400 w-full min-h-screen flex flex-col landscape:flex-row md:flex-cols">
-        {/* First section with navbar and background image */}
+        {/* First section */}
         <motion.div
-          initial={{ opacity: 0, y: -100 }} // Starts hidden and lower
-          whileInView={{ opacity: 1, y: 0 }} // Moves up smoothly when in view
-          transition={{ duration: 0.5,  ease: "easeOut" }} // Smooth transition
+          initial={{ opacity: 0, y: -100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           viewport={{ once: true }}
           className="w-full min-h-screen landscape:w-2/3 relative flex items-center md:h-screen justify-center"
         >
           <Navbar />
-          <img
+          <Image
             className="h-screen w-full object-cover absolute top-0 left-0"
             src="/bg1.png"
-            alt=""
+            alt="Background"
+            fill
           />
 
-          {/* Floating span that remains centered & moves subtly */}
+          {/* Floating span */}
           <motion.span
-            animate={{
-              x: moveX, // Small movement left/right
-              y: [0, -5, 0], // Slight floating effect
-            }}
+            animate={{ x: moveX, y: [0, -5, 0] }}
             transition={{
               x: { duration: 0.5, ease: "easeInOut" },
               y: { duration: 2, repeat: Infinity, ease: "easeInOut" },
@@ -76,21 +74,21 @@ export default function Home() {
           {/* Bottom-left text */}
           <div className="absolute text-black bottom-10 landscape:left-14 left-6">
             <motion.h1
-            initial={{opacity:0, y:40}}
-            whileInView={{opacity:1 , y:0}}
-            transition={{ duration: 1, delay:1, ease: "easeOut" }}
-            viewport={{ once: true }}
-
-           className="text-4xl font-f1 font-bold landscape:text-5xl">
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1, ease: "easeOut" }}
+              viewport={{ once: true }}
+              className="text-4xl font-f1 font-bold landscape:text-5xl"
+            >
               Creating <span className="font-f2">with</span> code.
             </motion.h1>
-            <motion.h1 
-            initial={{opacity:0, y:40}}
-            whileInView={{opacity:1 , y:0}}
-            transition={{ duration: 1, delay:1.5, ease: "easeOut" }}
-            viewport={{ once: true }}
-
-           className="text-4xl font-f1 font-bold landscape:text-5xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
+              viewport={{ once: true }}
+              className="text-4xl font-f1 font-bold landscape:text-5xl"
+            >
               Designing <span className="font-f2">with</span> purpose.
             </motion.h1>
           </div>
@@ -99,31 +97,28 @@ export default function Home() {
         {/* Second section */}
         <div className="w-full h-screen landscape:w-1/3 relative bg-zinc-300 px-10 flex flex-col items-center justify-center">
           <h1 className="font-f1 text-4xl md:text-3xl lg:text-4xl leading-4 text-center">
-            THROUGH <span className="font-f2"> my </span> GAZE
+            THROUGH <span className="font-f2">my</span> GAZE
           </h1>
 
-          <motion.img
-            className="w-40 mb-5 -mt-2" // Moves the image slightly up
-            src="/mePic.jpeg"
-            alt="Profile Picture"
-            initial={{ opacity: 0, y: 50 }} // Starts hidden and lower
-            whileInView={{ opacity: 1, y: 0 }} // Moves up smoothly when in view
-            transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <Image className="w-40 mb-5 -mt-2" src="/mePic.jpeg" alt="Profile Picture" width={160} height={160} />
+          </motion.div>
 
-          <div>{/* Wrapped text inside a div to prevent overlapping */}</div>
           <div className="text-center text-black/30 leading-5 font-semibold font-f1 text-sm max-w-xl py-4 px-6">
             I'm a passionate designer and developer dedicated to crafting
             impactful visuals that seamlessly blend creativity, innovation, and
-            technical expertise. With a keen eye for detail understanding of
-            design
+            technical expertise. With a keen eye for detail and deep understanding
+            of design principles, I strive to create engaging user experiences.
           </div>
-          <div className="font-f2  absolute text-black/30 bottom-7">
-            <h1 className="">#2</h1>
+          <div className="font-f2 absolute text-black/30 bottom-7">
+            <h1>#2</h1>
           </div>
         </div>
       </div>
-    
     </>
   );
 }

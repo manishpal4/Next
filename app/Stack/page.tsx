@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 // Named export
@@ -117,9 +118,11 @@ const My_Stack = () => {
               >
                 <div className="text-center rounded  text-3xl bg-white px-5 py-4">
                   <div className="w-20 h-20 flex items-center justify-center mx-auto">
-                    <img
+                    <Image
                       className="rounded-full object-cover"
                       src={tool.imgSrc}
+                      width={100} // Set an appropriate width
+                      height={100} // Set an appropriate height
                       alt={tool.name}
                     />
                   </div>
