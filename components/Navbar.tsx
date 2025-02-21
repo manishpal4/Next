@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FiMenu, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -19,10 +20,12 @@ const Navbar = () => {
         <div className="font-f1 flex  justify-between items-center">
           {/* Logo Section */}
           <Link href="/" passHref>
-            <img
+            <Image
               className="w-24 bg-clip-padding backdrop-filter px-5 py-2 backdrop-blur-lg rounded-3xl bg-opacity-20"
               src="/Logo1.png"
               alt="Logo"
+              width={100}
+              height={100}
             />
           </Link>
 

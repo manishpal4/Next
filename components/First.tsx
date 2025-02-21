@@ -109,7 +109,7 @@ export default function Home() {
           </motion.div>
 
           <div className="text-center text-black/30 leading-5 font-semibold font-f1 text-sm max-w-xl py-4 px-6">
-            I'm a passionate designer and developer dedicated to crafting
+            I am a passionate designer and developer dedicated to crafting
             impactful visuals that seamlessly blend creativity, innovation, and
             technical expertise. With a keen eye for detail and deep understanding
             of design principles, I strive to create engaging user experiences.
