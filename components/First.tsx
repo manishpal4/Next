@@ -1,35 +1,33 @@
 "use client";
-import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { ImArrowUpRight2 } from "react-icons/im";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import React from "react";
 
 export default function Home() {
   const [mouseX, setMouseX] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(0); // Initialized to 0 to prevent SSR issues
+  const [windowWidth, setWindowWidth] = useState<number | null>(null); // Handle SSR properly
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth); // Set width after mount
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setMouseX(e.clientX);
-    };
-
-    const handleResize = () => {
+    if (typeof window !== "undefined") {
+      // Set width after mount
       setWindowWidth(window.innerWidth);
-    };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("resize", handleResize);
+      const handleMouseMove = (e: MouseEvent) => setMouseX(e.clientX);
+      const handleResize = () => setWindowWidth(window.innerWidth);
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("resize", handleResize);
-    };
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("resize", handleResize);
+      };
+    }
   }, []);
 
-  const moveX = mouseX < windowWidth / 2 ? 15 : -15; // Adjust floating movement
+  const moveX = windowWidth && mouseX < windowWidth / 2 ? 15 : -15; // Adjust floating movement
 
   return (
     <>
@@ -42,12 +40,13 @@ export default function Home() {
           viewport={{ once: true }}
           className="w-full min-h-screen landscape:w-2/3 relative flex items-center md:h-screen justify-center"
         >
-          <Navbar />
+         
           <Image
             className="h-screen w-full object-cover absolute top-0 left-0"
             src="/bg1.png"
             alt="Background"
             fill
+            priority
           />
 
           {/* Floating span */}
@@ -105,14 +104,21 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <Image className="w-40 mb-5 -mt-2" src="/mePic.jpeg" alt="Profile Picture" width={160} height={160} />
+            <Image
+              className="w-40 mb-5 -mt-2"
+              src="/mePic.jpeg"
+              alt="Profile Picture"
+              width={160}
+              height={160}
+              priority
+            />
           </motion.div>
 
           <div className="text-center text-black/30 leading-5 font-semibold font-f1 text-sm max-w-xl py-4 px-6">
-            I am a passionate designer and developer dedicated to crafting
-            impactful visuals that seamlessly blend creativity, innovation, and
-            technical expertise. With a keen eye for detail and deep understanding
-            of design principles, I strive to create engaging user experiences.
+            I am a passionate designer and developer dedicated to crafting impactful visuals that
+            seamlessly blend creativity, innovation, and technical expertise. With a keen eye for
+            detail and deep understanding of design principles, I strive to create engaging user
+            experiences.
           </div>
           <div className="font-f2 absolute text-black/30 bottom-7">
             <h1>#2</h1>
